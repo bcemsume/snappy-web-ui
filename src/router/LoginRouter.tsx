@@ -12,9 +12,6 @@ export const LoginRouter: React.FC<RouterModel> = ({ children }) => {
     <Router history={History}>
       <div>
         {children}
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Switch>
           {/* <Route exact path="/" component={Login} /> */}
           {/* <Route path="/login" component={Login} /> */}
