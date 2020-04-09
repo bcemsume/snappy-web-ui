@@ -1,13 +1,20 @@
 import React from "react";
+import { Button as AntButton } from "antd";
 export interface IProps {
-  color: string;
-  onClick?: (color: string) => void;
+  type?: String;
+  onClick?: () => void;
+  text: String;
+  icon?: React.ReactNode;
+  attrs?: any;
 }
-export default (props: IProps) => {
-  const { color, onClick } = props;
+
+const Button = (props: IProps) => {
+  const { onClick, icon, text } = props;
   return (
-    <button style={{ color }} onClick={() => onClick && onClick(color)}>
-      Color Button
-    </button>
+    <AntButton onClick={() => onClick} {...props.attrs}>
+      {icon && icon}
+      {text}
+    </AntButton>
   );
 };
+export default Button;

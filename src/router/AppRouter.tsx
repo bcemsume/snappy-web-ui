@@ -10,6 +10,7 @@ import {
   AppstoreOutlined,
 } from "@ant-design/icons";
 import Restaurant from "../screens/Restaurant";
+import Products from "../screens/Products";
 
 // interface RouterModel {
 //   children: ReactNode;
@@ -91,5 +92,9 @@ const ROUTER: RouterModel[] = [
   {
     path: "/app/restaurant",
     component: <Restaurant />,
+  },
+  {
+    path: "/app/products",
+    component: <Products />,
   },
 ];

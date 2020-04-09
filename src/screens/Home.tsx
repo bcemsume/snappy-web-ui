@@ -1,32 +1,26 @@
 import React from "react";
-import { Layout } from "antd";
 
 import { AppRouter, GetAppMenu } from "../router/AppRouter";
-
-const { Header, Content, Footer, Sider } = Layout;
+import Sider from "../components/Sider";
+import Layout from "../components/Layout";
+import Header from "../components/Header";
+import Content from "../components/Content";
+import Footer from "../components/Footer";
 
 function Home() {
   return (
     <Layout>
-      <Sider
-        style={{
-          overflow: "auto",
-          height: "100vh",
-          position: "fixed",
-          left: 0,
-        }}
-      >
+      <Sider>
         <div className="logo" />
         <GetAppMenu />
       </Sider>
-      <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="site-layout-background" style={{ padding: 0 }} />
+
+      <Layout style={{ marginLeft: 200, minHeight: "100vh" }}>
+        <Header />
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <AppRouter />
         </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Snappy ©2020 Created by BCS
-        </Footer>
+        <Footer text="Snappy ©2020 Created by BCS"></Footer>
       </Layout>
     </Layout>
   );
