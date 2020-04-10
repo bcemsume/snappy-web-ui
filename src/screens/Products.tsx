@@ -119,7 +119,7 @@ const Products = () => {
         title="Yeni Urun"
       >
         <Content>
-          <Form onFinish={onFinish} onFinishFailed={onFinish} style={formStyle}>
+          <Form onFinish={onFinish} onFinishFailed={onFinish} style={formStyle} initialValues={editValues}>
             <FormItem
               label="Urun Adi"
               name="description"
