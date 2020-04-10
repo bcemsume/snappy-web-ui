@@ -53,7 +53,6 @@ const Products = () => {
   const [form] = AntForm.useForm();
 
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [editValues, setEditValues] = useState<any>({});
   const drawerFooter = () => (
     <div
       style={{
@@ -97,7 +96,6 @@ const Products = () => {
             shape="round"
             onClick={() => {
               form.setFieldsValue(record);
-              setEditValues({ ...record });
               setDrawerVisible(true);
             }}
           />
@@ -109,7 +107,7 @@ const Products = () => {
 
   const onClose = () => {
     setDrawerVisible(false);
-    setEditValues({});
+    form.resetFields();
   };
   const onFinish = (value: any): void => {};
   return (
