@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PageHeader from "../components/PageHeader";
 import Button from "../components/Buttton";
 import { SaveOutlined } from "@ant-design/icons";
@@ -8,7 +8,16 @@ import Option from "../components/Option";
 import Select from "../components/Select";
 import FormItem from "../components/FormItem";
 import Form from "../components/Form";
-import Input from "../components/Input";
+import { AppState } from "../redux";
+import { connect } from "react-redux";
+import { getRestaurant } from "../redux/restaurant/actions";
+import { RestaurantState } from "../redux/restaurant/types";
+import { Form as AntForm, Input } from "antd";
+
+interface AppProps {
+  getRestaurant: typeof getRestaurant;
+  restaurant: RestaurantState;
+}
 
 const layout = {
   labelCol: { span: 3 },
@@ -52,12 +61,23 @@ for (let i = 0; i < paymentMethods.length; i++) {
   );
 }
 
-const Restaurant = () => {
+const Restaurant = (props: AppProps) => {
+  const [form] = AntForm.useForm();
+  const [value, setValues] = useState();
+  useEffect(() => {
+    props.getRestaurant();
+  }, []);
+
+  useEffect(() => {
+    form.setFieldsValue(props.restaurant);
+  }, [props.restaurant]);
+
+  const onFinis = () => {};
   return (
     <PageHeader title="Restaurant Bilgileri">
       <Divider />
       <Content>
-        <Form style={layout} initialValues={{ remember: true }}>
+        <Form form={form} style={layout} onFinish={onFinis}>
           <FormItem
             label="Sirket Adi"
             name="title"
@@ -71,7 +91,7 @@ const Restaurant = () => {
             name="address"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input type="textarea" />
+            <Input.TextArea />
           </FormItem>
 
           <FormItem
@@ -115,4 +135,12 @@ const Restaurant = () => {
   );
 };
 
-export default Restaurant;
+const mapStateToProps = (store: AppState) => {
+  return {
+    restaurant: store.RestaurantReducer,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getRestaurant,
+})(Restaurant);

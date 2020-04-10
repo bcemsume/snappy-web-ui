@@ -8,9 +8,8 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import Drawer from "../components/Drawer";
 import Form from "../components/Form";
 import FormItem from "../components/FormItem";
-import Input from "../components/Input";
 import DatePicker from "../components/DatePicker";
-import { Form as AntForm } from "antd";
+import { Form as AntForm, Input } from "antd";
 
 const formStyle = {
   labelCol: { span: 3 },
@@ -53,6 +52,7 @@ const Products = () => {
   const [form] = AntForm.useForm();
 
   const [drawerVisible, setDrawerVisible] = useState(false);
+
   const drawerFooter = () => (
     <div
       style={{
