@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout } from "antd";
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   style?: any;
 }
 const Content = (props: Props) => {

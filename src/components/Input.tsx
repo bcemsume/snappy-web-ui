@@ -1,17 +1,20 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Input as AntInput } from "antd";
 interface Props {
   type: "text" | "password" | "textarea";
+  value?: any;
+  addonAfter?: string | ReactNode;
+  addonBefore?: string | ReactNode;
 }
 
 const Input = (props: Props) => {
-  const { type } = props;
+  const { type, value, addonBefore, addonAfter } = props;
   return type === "text" ? (
-    <AntInput />
+    <AntInput addonAfter={addonAfter} addonBefore={addonBefore} value={value} />
   ) : type === "password" ? (
-    <AntInput.Password />
+    <AntInput.Password value={value} />
   ) : (
-    <AntInput.TextArea />
+    <AntInput.TextArea value={value} />
   );
 };
 

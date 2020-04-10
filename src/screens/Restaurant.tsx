@@ -58,7 +58,7 @@ const Restaurant = () => {
     <PageHeader title="Restaurant Bilgileri">
       <Divider />
       <Content>
-        <Form style={layout} initValues={{ remember: true }}>
+        <Form style={layout} initialValues={{ remember: true }}>
           <FormItem
             label="Sirket Adi"
             name="title"

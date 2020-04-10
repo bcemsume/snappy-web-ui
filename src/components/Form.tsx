@@ -1,15 +1,23 @@
 import React from "react";
 import { Form as AntForm } from "antd";
 interface Props {
-  children: React.ReactNode[];
-  initValues?: any;
+  children: React.ReactNode;
+  initialValues?: any;
   style?: any;
+  onFinish?: (values: any) => void;
+  onFinishFailed?: (values: any) => void;
 }
 
 const Form = (props: Props) => {
-  const { initValues, style, children } = props;
+  const { initialValues, style, children, onFinish, onFinishFailed } = props;
+
   return (
-    <AntForm {...style} initialValues={initValues}>
+    <AntForm
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      {...style}
+      initialValues={{ initialValues }}
+    >
       {children}
     </AntForm>
   );
