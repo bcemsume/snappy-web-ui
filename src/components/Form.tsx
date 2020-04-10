@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Form as AntForm } from "antd";
 interface Props {
   children: React.ReactNode;
@@ -18,14 +18,13 @@ const Form = (props: Props) => {
     onFinishFailed,
     form,
   } = props;
-
   return (
     <AntForm
       form={form}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       {...style}
-      initialValues={{ initialValues }}
+      initialValues={initialValues}
     >
       {children}
     </AntForm>

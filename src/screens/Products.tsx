@@ -4,7 +4,7 @@ import Divider from "../components/Divider";
 import Content from "../components/Content";
 import DataTable from "../components/DataTable";
 import Button from "../components/Buttton";
-import { DeleteOutlined, PlusOutlined, SaveOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import Drawer from "../components/Drawer";
 import Form from "../components/Form";
 import FormItem from "../components/FormItem";
@@ -96,6 +96,7 @@ const Products = () => {
             type="primary"
             shape="round"
             onClick={() => {
+              form.setFieldsValue(record);
               setEditValues({ ...record });
               setDrawerVisible(true);
             }}
@@ -127,7 +128,6 @@ const Products = () => {
           <Form
             form={form}
             onFinish={onFinish}
-            initialValues={{ editValues }}
             onFinishFailed={onFinish}
             style={formStyle}
           >

@@ -13,6 +13,7 @@ const Drawer = (props: Props) => {
   const { onClose, visible, title, footer, children } = props;
   return (
     <AntDrawer
+      destroyOnClose={true}
       title={title}
       width={720}
       onClose={onClose}
