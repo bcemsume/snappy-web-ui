@@ -6,13 +6,22 @@ interface Props {
   style?: any;
   onFinish?: (values: any) => void;
   onFinishFailed?: (values: any) => void;
+  form?: any;
 }
 
 const Form = (props: Props) => {
-  const { initialValues, style, children, onFinish, onFinishFailed } = props;
+  const {
+    initialValues,
+    style,
+    children,
+    onFinish,
+    onFinishFailed,
+    form,
+  } = props;
 
   return (
     <AntForm
+      form={form}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       {...style}

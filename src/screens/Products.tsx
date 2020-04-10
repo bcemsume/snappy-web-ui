@@ -10,6 +10,7 @@ import Form from "../components/Form";
 import FormItem from "../components/FormItem";
 import Input from "../components/Input";
 import DatePicker from "../components/DatePicker";
+import { Form as AntForm } from "antd";
 
 const formStyle = {
   labelCol: { span: 3 },
@@ -49,6 +50,8 @@ const extraButtons = (setDrawerVisible: any) => (
 );
 
 const Products = () => {
+  const [form] = AntForm.useForm();
+
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [editValues, setEditValues] = useState<any>({});
   const drawerFooter = () => (
@@ -60,7 +63,9 @@ const Products = () => {
       <Button
         style={{ style: { marginRight: 8 } }}
         text="Iptal"
-        onClick={() => {}}
+        onClick={() => {
+          form.resetFields();
+        }}
       />
       <Button type="primary" text="Kaydet" />
     </div>
@@ -119,7 +124,13 @@ const Products = () => {
         title="Yeni Urun"
       >
         <Content>
-          <Form onFinish={onFinish} onFinishFailed={onFinish} style={formStyle}>
+          <Form
+            form={form}
+            onFinish={onFinish}
+            initialValues={{ editValues }}
+            onFinishFailed={onFinish}
+            style={formStyle}
+          >
             <FormItem
               label="Urun Adi"
               name="description"
