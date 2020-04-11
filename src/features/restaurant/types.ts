@@ -1,4 +1,4 @@
-import { BaseState } from "../BaseState";
+import { BaseState } from "../../redux/BaseState";
 
 export interface RestaurantState extends BaseState {
   title: String;
