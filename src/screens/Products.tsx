@@ -2,39 +2,19 @@ import React, { useState } from "react";
 import PageHeader from "../components/PageHeader";
 import Divider from "../components/Divider";
 import Content from "../components/Content";
-import DataTable from "../components/DataTable";
 import Button from "../components/Buttton";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import Drawer from "../components/Drawer";
 import Form from "../components/Form";
 import FormItem from "../components/FormItem";
-import Input from "../components/Input";
 import DatePicker from "../components/DatePicker";
-import { Form as AntForm } from "antd";
+import { Form as AntForm, Input } from "antd";
+import ProductList from "../features/product/ProductList";
 
 const formStyle = {
   labelCol: { span: 3 },
 };
-const data = [
-  {
-    key: "1",
-    description: "Filtre Kahve",
-    price: "10.5",
-    finishDate: "2030-01-01",
-  },
-  {
-    key: "2",
-    description: "Latte",
-    price: "11.5",
-    finishDate: "2030-01-01",
-  },
-  {
-    key: "3",
-    description: "Mocha",
-    price: "13.5",
-    finishDate: "2030-01-01",
-  },
-];
+
 const extraButtons = (setDrawerVisible: any) => (
   <>
     <Button
@@ -53,6 +33,7 @@ const Products = () => {
   const [form] = AntForm.useForm();
 
   const [drawerVisible, setDrawerVisible] = useState(false);
+
   const drawerFooter = () => (
     <div
       style={{
@@ -69,41 +50,6 @@ const Products = () => {
       <Button type="primary" text="Kaydet" />
     </div>
   );
-  const columns = [
-    {
-      title: "Urun Adi",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Fiyat",
-      dataIndex: "price",
-      key: "price",
-    },
-    {
-      title: "Bitis Tarihi",
-      dataIndex: "finishDate",
-      key: "finishDate",
-    },
-    {
-      title: "Islemler",
-      key: "islemler",
-      render: (text: any, record: any) => (
-        <span>
-          <Button
-            text=""
-            type="primary"
-            shape="round"
-            onClick={() => {
-              form.setFieldsValue(record);
-              setDrawerVisible(true);
-            }}
-          />
-          <Divider type="vertical" />
-        </span>
-      ),
-    },
-  ];
 
   const onClose = () => {
     setDrawerVisible(false);
@@ -114,7 +60,7 @@ const Products = () => {
     <PageHeader title="Urunler" extra={extraButtons(setDrawerVisible)}>
       <Divider />
       <Content>
-        <DataTable columns={columns} data={data}></DataTable>
+        <ProductList />
       </Content>
       <Drawer
         footer={drawerFooter()}
