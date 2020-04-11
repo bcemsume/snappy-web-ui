@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Drawer from "../../../components/Drawer";
+import React, { useEffect } from "react";
 import Form from "../../../components/Form";
 import FormItem from "../../../components/FormItem";
 import DatePicker from "../../../components/DatePicker";
@@ -9,7 +8,9 @@ import Content from "../../../components/Content";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/rootReducer";
 import { SaveOutlined } from "@ant-design/icons";
-import { resetState } from "./productSlice";
+import { resetState, addProduct } from "./productSlice";
+import { Product } from "../types";
+import moment from "moment";
 interface Props {
   drawerOpen: boolean;
 }
@@ -35,10 +36,20 @@ const ProductForm = (props: Props) => {
   const tailLayout = {
     wrapperCol: { offset: 3, span: 1 },
   };
-
+  const onFinish = (values: any) => {
+    debugger;
+    let data: Product = {
+      id: 0,
+      description: values.description,
+      finishDate: moment(values.finisDate).toISOString(),
+      price: Number(values.price),
+      restaurantId: 1,
+    };
+    dispatch(addProduct(data));
+  };
   return (
     <Content>
-      <Form form={form} style={formStyle}>
+      <Form onFinish={onFinish} form={form} style={formStyle}>
         <FormItem
           label="Urun Adi"
           name="description"

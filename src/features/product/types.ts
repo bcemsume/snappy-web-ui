@@ -3,8 +3,9 @@ import { BaseState } from "../../redux/BaseState";
 export interface Product {
   id: number;
   description: String;
-  price: String;
+  price: number;
   finishDate: String;
+  restaurantId: number;
 }
 
 export interface ProductState extends BaseState {

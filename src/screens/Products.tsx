@@ -22,18 +22,6 @@ const extraButtons = (setDrawerVisible: any) => (
   </>
 );
 
-const drawerFooter = () => (
-  <div
-    style={{
-      textAlign: "right",
-    }}
-  >
-    <Button text="Iptal" onClick={() => {}} />
-    <Divider type="vertical" />
-    <Button type="primary" text="Kaydet" />
-  </div>
-);
-
 const Products = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const onDrawerClose = () => {

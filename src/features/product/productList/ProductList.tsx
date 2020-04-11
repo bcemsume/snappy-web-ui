@@ -18,7 +18,7 @@ const ProductList = (props: Props) => {
 
   useEffect(() => {
     dispatch(getProducts());
-  }, []);
+  }, [dispatch]);
   const columns = [
     {
       title: "Urun Adi",

@@ -2,13 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppThunk, AppDispatch } from "../../../redux";
 import { Product, ProductState } from "../types";
-
+import { data } from "../productList/productListSlice";
+import axios from "axios";
 const initialState: ProductState = {
   data: {
     id: 0,
     description: "",
-    price: "",
+    price: 0,
     finishDate: "",
+    restaurantId: 1,
   },
   errors: undefined,
   loading: false,
@@ -22,7 +24,9 @@ const productSlice = createSlice({
       state.data = action.payload;
       state.loading = false;
     },
-    addProduct(state, action: PayloadAction<Product>) {},
+    addProduct(state, action: PayloadAction<Product>) {
+      state.data = action.payload;
+    },
     updateProduct(state, action: PayloadAction<Product>) {},
     deleteProduct(state, action: PayloadAction<Product>) {},
     resetState(state) {
@@ -46,24 +50,17 @@ export const resetState = (): AppThunk => async (dispatch: AppDispatch) => {
   dispatch(productSlice.actions.resetState());
 };
 
-const data: Product[] = [
-  {
-    id: 1,
-    description: "Filtre Kahve",
-    price: "10.5",
-    finishDate: "2030-01-01",
-  },
-  {
-    id: 2,
-    description: "Latte",
-    price: "11.5",
-    finishDate: "2030-01-01",
-  },
-  {
-    id: 3,
-    description: "Mocha",
-    price: "13.5",
-    finishDate: "2030-01-01",
-  },
-];
+export const addProduct = (product: Product): AppThunk => async (
+  dispatch: AppDispatch
+) => {
+  debugger;
+  product.restaurantId = 1;
+  const response = await axios.post(
+    "http://localhost:4000/api/product",
+    product
+  );
+  debugger;
+  dispatch(productSlice.actions.addProduct(product));
+};
+
 export default productSlice.reducer;
