@@ -7,7 +7,9 @@ export interface Product {
   finishDate: String;
 }
 
-export interface ProductState extends BaseState, Product {}
+export interface ProductState extends BaseState {
+  data?: Product;
+}
 
 export interface ProductListState extends BaseState {
   data: Product[];

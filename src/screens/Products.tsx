@@ -4,16 +4,9 @@ import Divider from "../components/Divider";
 import Content from "../components/Content";
 import Button from "../components/Buttton";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import ProductList from "../features/product/productList/ProductList";
+import ProductForm from "../features/product/productForm/ProductForm";
 import Drawer from "../components/Drawer";
-import Form from "../components/Form";
-import FormItem from "../components/FormItem";
-import DatePicker from "../components/DatePicker";
-import { Form as AntForm, Input } from "antd";
-import ProductList from "../features/product/ProductList";
-
-const formStyle = {
-  labelCol: { span: 3 },
-};
 
 const extraButtons = (setDrawerVisible: any) => (
   <>
@@ -29,82 +22,39 @@ const extraButtons = (setDrawerVisible: any) => (
   </>
 );
 
+const drawerFooter = () => (
+  <div
+    style={{
+      textAlign: "right",
+    }}
+  >
+    <Button text="Iptal" onClick={() => {}} />
+    <Divider type="vertical" />
+    <Button type="primary" text="Kaydet" />
+  </div>
+);
+
 const Products = () => {
-  const [form] = AntForm.useForm();
-
   const [drawerVisible, setDrawerVisible] = useState(false);
-
-  const drawerFooter = () => (
-    <div
-      style={{
-        textAlign: "right",
-      }}
-    >
-      <Button
-        style={{ style: { marginRight: 8 } }}
-        text="Iptal"
-        onClick={() => {
-          form.resetFields();
-        }}
-      />
-      <Button type="primary" text="Kaydet" />
-    </div>
-  );
-
-  const onClose = () => {
+  const onDrawerClose = () => {
     setDrawerVisible(false);
-    form.resetFields();
   };
-  const onFinish = (value: any): void => {};
+  const onEditClick = () => {
+    debugger;
+    setDrawerVisible(true);
+  };
   return (
     <PageHeader title="Urunler" extra={extraButtons(setDrawerVisible)}>
       <Divider />
       <Content>
-        <ProductList />
+        <ProductList onEditClick={() => onEditClick()} />
       </Content>
       <Drawer
-        footer={drawerFooter()}
-        onClose={onClose}
+        onClose={onDrawerClose}
         visible={drawerVisible}
-        title="Yeni Urun"
+        title="Urun Tanim"
       >
-        <Content>
-          <Form
-            form={form}
-            onFinish={onFinish}
-            onFinishFailed={onFinish}
-            style={formStyle}
-          >
-            <FormItem
-              label="Urun Adi"
-              name="description"
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
-            >
-              <Input type="text" />
-            </FormItem>
-
-            <FormItem
-              label="Fiyat"
-              name="price"
-              rules={[
-                { required: true, message: "Please input your password!" },
-              ]}
-            >
-              <Input type="text" />
-            </FormItem>
-            <FormItem
-              label="Bitis Tarihi"
-              name="finisDate"
-              rules={[
-                { required: true, message: "Please input your password!" },
-              ]}
-            >
-              <DatePicker />
-            </FormItem>
-          </Form>
-        </Content>
+        <ProductForm drawerOpen={drawerVisible} />
       </Drawer>
     </PageHeader>
   );

@@ -18,6 +18,7 @@ const Form = (props: Props) => {
     onFinishFailed,
     form,
   } = props;
+
   return (
     <AntForm
       form={form}

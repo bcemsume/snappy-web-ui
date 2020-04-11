@@ -5,7 +5,7 @@ interface Props {
   onClose: () => void;
   visible: boolean;
   title: String;
-  footer: React.ReactNode;
+  footer?: React.ReactNode;
   children: React.ReactNode;
 }
 

@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
-import DataTable from "../../components/DataTable";
-import Button from "../../components/Buttton";
-import Divider from "../../components/Divider";
+import DataTable from "../../../components/DataTable";
+import Button from "../../../components/Buttton";
+import Divider from "../../../components/Divider";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
+import { RootState } from "../../../redux/rootReducer";
 import { getProducts } from "./productListSlice";
+import { getProduct } from "../productForm/productSlice";
+import { EditOutlined } from "@ant-design/icons";
 
-interface Props {}
+interface Props {
+  onEditClick: () => void;
+}
 
 const ProductList = (props: Props) => {
   const dispatch = useDispatch();
@@ -36,7 +40,17 @@ const ProductList = (props: Props) => {
       key: "islemler",
       render: (text: any, record: any) => (
         <span>
-          <Button text="" type="primary" shape="round" onClick={() => {}} />
+          <Button
+            text=""
+            type="primary"
+            shape="round"
+            icon={<EditOutlined />}
+            onClick={() => {
+              debugger;
+              props.onEditClick();
+              dispatch(getProduct(record.id));
+            }}
+          />
           <Divider type="vertical" />
         </span>
       ),
