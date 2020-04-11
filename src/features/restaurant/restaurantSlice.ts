@@ -24,6 +24,7 @@ const restaurantSlice = createSlice({
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
     },
+    saveRestaurant(state, action: PayloadAction<RestaurantState>) {},
   },
 });
 

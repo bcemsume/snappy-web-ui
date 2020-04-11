@@ -58,10 +58,7 @@ const RestaurantForm = (props: Props) => {
   const [form] = AntForm.useForm();
 
   const dispatch = useDispatch();
-  const restaurants = useSelector((state: RootState) => {
-    console.log(state);
-    return state.restaurant;
-  });
+  const restaurants = useSelector((state: RootState) => state.restaurant);
   useEffect(() => {
     dispatch(getRestaurant());
   }, []);
