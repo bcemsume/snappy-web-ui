@@ -1,11 +1,13 @@
 import { BaseState } from "../../redux/BaseState";
+import moment from "moment";
 
 export interface Product {
-  id: number;
-  description: String;
-  price: number;
-  finishDate: String;
-  restaurantId: number;
+  ID: number;
+  Description: String;
+  Price: number;
+  FinishDate: String;
+  RestaurantID: number;
+  finishDate?: moment.Moment;
 }
 
 export interface ProductState extends BaseState {

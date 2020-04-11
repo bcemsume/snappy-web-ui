@@ -2,25 +2,29 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppThunk, AppDispatch } from "../../../redux";
 import { Product, ProductState } from "../types";
-import { data } from "../productList/productListSlice";
 import axios from "axios";
+import ResponseModel from "../../../shared/ResponseModel";
+import moment from "moment";
+import { getProducts } from "../productList/productListSlice";
+
 const initialState: ProductState = {
   data: {
-    id: 0,
-    description: "",
-    price: 0,
-    finishDate: "",
-    restaurantId: 1,
+    ID: 0,
+    Description: "",
+    Price: 0,
+    FinishDate: "",
+    RestaurantID: 0,
   },
   errors: undefined,
   loading: false,
 };
-
 const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
     getProduct(state, action: PayloadAction<Product>) {
+      action.payload.finishDate = moment(action.payload.FinishDate as any);
+
       state.data = action.payload;
       state.loading = false;
     },
@@ -42,8 +46,10 @@ export const getProduct = (id: number): AppThunk => async (
   dispatch: AppDispatch
 ) => {
   dispatch(productSlice.actions.setLoading(true));
-  let prd: Product = data.find((x) => x.id === id) as Product;
-  dispatch(productSlice.actions.getProduct(prd));
+  let data = await axios.get<ResponseModel<Product>>(
+    `http://localhost:4000/api/product/${id}`
+  );
+  dispatch(productSlice.actions.getProduct(data.data.Data));
 };
 
 export const resetState = (): AppThunk => async (dispatch: AppDispatch) => {
@@ -53,14 +59,10 @@ export const resetState = (): AppThunk => async (dispatch: AppDispatch) => {
 export const addProduct = (product: Product): AppThunk => async (
   dispatch: AppDispatch
 ) => {
-  debugger;
-  product.restaurantId = 1;
-  const response = await axios.post(
-    "http://localhost:4000/api/product",
-    product
-  );
-  debugger;
+  product.RestaurantID = 1;
+  await axios.post("http://localhost:4000/api/product", product);
   dispatch(productSlice.actions.addProduct(product));
+  dispatch(getProducts(1));
 };
 
 export default productSlice.reducer;

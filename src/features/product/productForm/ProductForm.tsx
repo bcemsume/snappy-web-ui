@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import Form from "../../../components/Form";
 import FormItem from "../../../components/FormItem";
-import DatePicker from "../../../components/DatePicker";
-import { Form as AntForm, Input } from "antd";
+import { Form as AntForm, Input, DatePicker } from "antd";
 import Button from "../../../components/Buttton";
 import Content from "../../../components/Content";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,14 +35,14 @@ const ProductForm = (props: Props) => {
   const tailLayout = {
     wrapperCol: { offset: 3, span: 1 },
   };
-  const onFinish = (values: any) => {
+  const onFinish = (values: Product) => {
     debugger;
     let data: Product = {
-      id: 0,
-      description: values.description,
-      finishDate: moment(values.finisDate).toISOString(),
-      price: Number(values.price),
-      restaurantId: 1,
+      ID: 0,
+      Description: values.Description,
+      FinishDate: moment(values.FinishDate as any).toISOString(),
+      Price: Number(values.Price),
+      RestaurantID: 1,
     };
     dispatch(addProduct(data));
   };
@@ -52,7 +51,7 @@ const ProductForm = (props: Props) => {
       <Form onFinish={onFinish} form={form} style={formStyle}>
         <FormItem
           label="Urun Adi"
-          name="description"
+          name="Description"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
           <Input />
@@ -60,7 +59,7 @@ const ProductForm = (props: Props) => {
 
         <FormItem
           label="Fiyat"
-          name="price"
+          name="Price"
           rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input />
@@ -68,9 +67,15 @@ const ProductForm = (props: Props) => {
         <FormItem
           label="Bitis Tarihi"
           name="finishDate"
-          rules={[{ required: true, message: "Please input your password!" }]}
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+              type: "object",
+            },
+          ]}
         >
-          <DatePicker />
+          <DatePicker format="DD.MM.YYYY" />
         </FormItem>
         <FormItem style={tailLayout}>
           <Button

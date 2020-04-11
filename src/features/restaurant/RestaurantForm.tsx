@@ -60,17 +60,18 @@ const RestaurantForm = (props: Props) => {
   const dispatch = useDispatch();
   const restaurants = useSelector((state: RootState) => state.restaurant);
   useEffect(() => {
-    dispatch(getRestaurant());
+    dispatch(getRestaurant(1));
   }, []);
 
   useEffect(() => {
-    form.setFieldsValue(restaurants);
+    console.log(restaurants);
+    form.setFieldsValue(restaurants.data ?? {});
   }, []);
   return (
     <Form form={form} style={layout}>
       <FormItem
         label="Sirket Adi"
-        name="title"
+        name="Title"
         rules={[{ required: true, message: "Please input your username!" }]}
       >
         <Input type="text" />
@@ -78,7 +79,7 @@ const RestaurantForm = (props: Props) => {
 
       <FormItem
         label="Adres"
-        name="address"
+        name="Address"
         rules={[{ required: true, message: "Please input your password!" }]}
       >
         <Input.TextArea />
@@ -86,7 +87,7 @@ const RestaurantForm = (props: Props) => {
 
       <FormItem
         label="e-Mail"
-        name="email"
+        name="Email"
         rules={[{ required: true, message: "Please input your password!" }]}
       >
         <Input type="text" />
@@ -94,7 +95,7 @@ const RestaurantForm = (props: Props) => {
 
       <FormItem
         label="Telefon"
-        name="phone"
+        name="Phone"
         rules={[{ required: true, message: "Please input your password!" }]}
       >
         <Input type="text" />

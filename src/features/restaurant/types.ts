@@ -1,10 +1,15 @@
 import { BaseState } from "../../redux/BaseState";
 
 export interface RestaurantState extends BaseState {
-  title: String;
-  address: String;
-  email: String;
-  phone: String;
-  paymentMethods: String;
-  workingDays: String;
+  data?: Restaurant;
+}
+
+export interface Restaurant {
+  ID: number;
+  Title: String;
+  Address: String;
+  Email: String;
+  Phone: String;
+  PaymentMethods: String;
+  WorkingDays: String;
 }

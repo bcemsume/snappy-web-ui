@@ -2,6 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppThunk, AppDispatch } from "../../../redux";
 import { ProductListState, Product } from "../types";
+import ResponseModel from "../../../shared/ResponseModel";
+import axios from "axios";
+import moment from "moment";
 
 const initialState: ProductListState = {
   data: [],
@@ -17,6 +20,9 @@ const productListSlice = createSlice({
       state.loading = false;
     },
     getProducts(state, action: PayloadAction<Product[]>) {
+      action.payload.forEach(
+        (x) => (x.FinishDate = moment(x.FinishDate as any).format("DD.MM.YYYY"))
+      );
       state.data = action.payload;
     },
     setLoading(state, action: PayloadAction<boolean>) {
@@ -25,33 +31,15 @@ const productListSlice = createSlice({
   },
 });
 
-export const getProducts = (): AppThunk => async (dispatch: AppDispatch) => {
+export const getProducts = (restaurantId: number): AppThunk => async (
+  dispatch: AppDispatch
+) => {
   dispatch(productListSlice.actions.setLoading(true));
-  dispatch(productListSlice.actions.getProducts(data));
+  const response = await axios.get<ResponseModel<Product[]>>(
+    `http://localhost:4000/api/restaurant/${restaurantId}/products`
+  );
+  dispatch(productListSlice.actions.getProducts(response.data.Data));
   dispatch(productListSlice.actions.setLoading(false));
 };
 
-export const data: Product[] = [
-  {
-    id: 1,
-    description: "Filtre Kahve",
-    price: 10.5,
-    finishDate: "2030-01-01",
-    restaurantId: 1,
-  },
-  {
-    id: 2,
-    description: "Latte",
-    price: 11.5,
-    finishDate: "2030-01-01",
-    restaurantId: 1,
-  },
-  {
-    id: 3,
-    description: "Mocha",
-    price: 13.5,
-    finishDate: "2030-01-01",
-    restaurantId: 1,
-  },
-];
 export default productListSlice.reducer;

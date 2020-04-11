@@ -7,6 +7,7 @@ import { RootState } from "../../../redux/rootReducer";
 import { getProducts } from "./productListSlice";
 import { getProduct } from "../productForm/productSlice";
 import { EditOutlined } from "@ant-design/icons";
+import { Product } from "../types";
 
 interface Props {
   onEditClick: () => void;
@@ -17,28 +18,28 @@ const ProductList = (props: Props) => {
   const products = useSelector((state: RootState) => state.productList);
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProducts(1));
   }, [dispatch]);
   const columns = [
     {
       title: "Urun Adi",
-      dataIndex: "description",
+      dataIndex: "Description",
       key: "description",
     },
     {
       title: "Fiyat",
-      dataIndex: "price",
+      dataIndex: "Price",
       key: "price",
     },
     {
       title: "Bitis Tarihi",
-      dataIndex: "finishDate",
+      dataIndex: "FinishDate",
       key: "finishDate",
     },
     {
       title: "Islemler",
       key: "islemler",
-      render: (text: any, record: any) => (
+      render: (text: any, record: Product) => (
         <span>
           <Button
             text=""
@@ -48,7 +49,7 @@ const ProductList = (props: Props) => {
             onClick={() => {
               debugger;
               props.onEditClick();
-              dispatch(getProduct(record.id));
+              dispatch(getProduct(record.ID));
             }}
           />
           <Divider type="vertical" />
