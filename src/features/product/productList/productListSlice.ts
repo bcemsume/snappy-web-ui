@@ -10,6 +10,7 @@ const initialState: ProductListState = {
   data: [],
   errors: undefined,
   loading: false,
+  isSuccess: undefined,
 };
 
 const productListSlice = createSlice({
@@ -20,7 +21,7 @@ const productListSlice = createSlice({
       state.loading = false;
     },
     getProducts(state, action: PayloadAction<Product[]>) {
-      action.payload.forEach(
+      action.payload?.forEach(
         (x) => (x.FinishDate = moment(x.FinishDate as any).format("DD.MM.YYYY"))
       );
       state.data = action.payload;

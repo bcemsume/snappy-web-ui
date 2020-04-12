@@ -4,7 +4,7 @@ import { AppThunk, AppDispatch } from "../../redux";
 import { RestaurantState, Restaurant } from "./types";
 import axios from "axios";
 import ResponseModel from "../../shared/ResponseModel";
-
+import http from "../../shared/http";
 const initialState: RestaurantState = {
   data: {
     ID: 0,
@@ -17,20 +17,23 @@ const initialState: RestaurantState = {
   },
   errors: undefined,
   loading: false,
+  isSuccess: undefined,
 };
 
 const restaurantSlice = createSlice({
   name: "restaurant",
   initialState,
   reducers: {
-    getRestaurant(state, action: PayloadAction<Restaurant>) {
-      state.data = action.payload;
+    getRestaurant(state, action: PayloadAction<ResponseModel<Restaurant>>) {
+      state.data = action.payload.Data ?? undefined;
       state.loading = false;
+      state.errors = action.payload.Message;
+      state.isSuccess = action.payload.IsSucceeded;
     },
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
     },
-    saveRestaurant(state, action: PayloadAction<RestaurantState>) {},
+    saveRestaurant(state, action: PayloadAction<Restaurant>) {},
   },
 });
 
@@ -41,8 +44,23 @@ export const getRestaurant = (id: number): AppThunk => async (
   const response = await axios.get<ResponseModel<Restaurant>>(
     `http://localhost:4000/api/restaurant/${id}`
   );
-  debugger;
-  dispatch(restaurantSlice.actions.getRestaurant(response.data.Data));
+
+  dispatch(restaurantSlice.actions.getRestaurant(response.data));
+};
+
+export const saveRestaurant = (restaurant: Restaurant): AppThunk => async (
+  dispatch: AppDispatch
+) => {
+  dispatch(restaurantSlice.actions.setLoading(true));
+  restaurant.ID = 1;
+
+  const response = await http.put<ResponseModel<Restaurant>>(
+    `restaurant/${restaurant.ID}`,
+    restaurant,
+    { headers: { "Access-Control-Allow-Origin": "*" } }
+  );
+
+  dispatch(restaurantSlice.actions.saveRestaurant(response.data.Data));
 };
 
 export default restaurantSlice.reducer;

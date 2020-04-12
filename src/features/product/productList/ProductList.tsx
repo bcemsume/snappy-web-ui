@@ -47,7 +47,6 @@ const ProductList = (props: Props) => {
             shape="round"
             icon={<EditOutlined />}
             onClick={() => {
-              debugger;
               props.onEditClick();
               dispatch(getProduct(record.ID));
             }}

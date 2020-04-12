@@ -8,7 +8,9 @@ import { Form as AntForm, Input } from "antd";
 import Option from "../../components/Option";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { getRestaurant } from "./restaurantSlice";
+import { getRestaurant, saveRestaurant } from "./restaurantSlice";
+import { Restaurant } from "./types";
+import Spin from "../../components/Spin";
 
 const layout = {
   labelCol: { span: 3 },
@@ -61,66 +63,73 @@ const RestaurantForm = (props: Props) => {
   const restaurants = useSelector((state: RootState) => state.restaurant);
   useEffect(() => {
     dispatch(getRestaurant(1));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    console.log(restaurants);
     form.setFieldsValue(restaurants.data ?? {});
-  }, []);
+  }, [restaurants, form]);
+
+  const onFinish = (values: Restaurant) => {
+    values.WorkingDays = "";
+    values.PaymentMethods = "";
+    dispatch(saveRestaurant(values));
+  };
   return (
-    <Form form={form} style={layout}>
-      <FormItem
-        label="Sirket Adi"
-        name="Title"
-        rules={[{ required: true, message: "Please input your username!" }]}
-      >
-        <Input type="text" />
-      </FormItem>
+    <Spin spinning={restaurants.loading}>
+      <Form form={form} style={layout} onFinish={onFinish}>
+        <FormItem
+          label="Sirket Adi"
+          name="Title"
+          rules={[{ required: true, message: "Please input your username!" }]}
+        >
+          <Input type="text" />
+        </FormItem>
 
-      <FormItem
-        label="Adres"
-        name="Address"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input.TextArea />
-      </FormItem>
+        <FormItem
+          label="Adres"
+          name="Address"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input.TextArea />
+        </FormItem>
 
-      <FormItem
-        label="e-Mail"
-        name="Email"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input type="text" />
-      </FormItem>
+        <FormItem
+          label="e-Mail"
+          name="Email"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input type="text" />
+        </FormItem>
 
-      <FormItem
-        label="Telefon"
-        name="Phone"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input type="text" />
-      </FormItem>
+        <FormItem
+          label="Telefon"
+          name="Phone"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input type="text" />
+        </FormItem>
 
-      <FormItem label="Odeme Yontemleri" name="paymentMethods">
-        <Select mode="multiple" placeholder="Odeme Yontemleri">
-          {paymentMethodsChildrens}
-        </Select>
-      </FormItem>
+        <FormItem label="Odeme Yontemleri" name="PaymentMethods">
+          <Select mode="multiple" placeholder="Odeme Yontemleri">
+            {paymentMethodsChildrens}
+          </Select>
+        </FormItem>
 
-      <FormItem label="Calisma Gunleri" name="workingDays">
-        <Select mode="multiple" placeholder="Calisma Gunleri">
-          {workingDaysChildrens}
-        </Select>
-      </FormItem>
+        <FormItem label="Calisma Gunleri" name="WorkingDays">
+          <Select mode="multiple" placeholder="Calisma Gunleri">
+            {workingDaysChildrens}
+          </Select>
+        </FormItem>
 
-      <FormItem style={tailLayout}>
-        <Button
-          attrs={{ htmlType: "submit", type: "primary" }}
-          text="Kaydet"
-          icon={<SaveOutlined />}
-        />
-      </FormItem>
-    </Form>
+        <FormItem style={tailLayout}>
+          <Button
+            attrs={{ htmlType: "submit", type: "primary" }}
+            text="Kaydet"
+            icon={<SaveOutlined />}
+          />
+        </FormItem>
+      </Form>
+    </Spin>
   );
 };
 

@@ -17,6 +17,7 @@ const initialState: ProductState = {
   },
   errors: undefined,
   loading: false,
+  isSuccess: undefined,
 };
 const productSlice = createSlice({
   name: "product",

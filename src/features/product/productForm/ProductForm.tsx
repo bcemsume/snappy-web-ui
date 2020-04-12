@@ -36,7 +36,6 @@ const ProductForm = (props: Props) => {
     wrapperCol: { offset: 3, span: 1 },
   };
   const onFinish = (values: Product) => {
-    debugger;
     let data: Product = {
       ID: 0,
       Description: values.Description,

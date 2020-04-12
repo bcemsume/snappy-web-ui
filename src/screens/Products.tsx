@@ -28,7 +28,6 @@ const Products = () => {
     setDrawerVisible(false);
   };
   const onEditClick = () => {
-    debugger;
     setDrawerVisible(true);
   };
   return (

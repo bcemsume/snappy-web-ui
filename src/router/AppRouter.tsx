@@ -97,4 +97,8 @@ const ROUTER: RouterModel[] = [
     path: "/app/products",
     component: <Products />,
   },
+  {
+    path: "/app/campaigns",
+    component: <Products />,
+  },
 ];
