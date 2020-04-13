@@ -8,15 +8,17 @@ export interface IProps {
   attrs?: any;
   style?: any;
   shape?: "circle" | "round" | "circle-outline";
+  loading?: boolean;
 }
 
 const Button = (props: IProps) => {
-  const { onClick, icon, text, type, style, shape } = props;
+  const { onClick, icon, text, type, style, shape, loading } = props;
   return (
     <AntButton
       shape={shape}
       {...style}
       type={type}
+      loading={loading}
       onClick={onClick}
       {...props.attrs}
     >

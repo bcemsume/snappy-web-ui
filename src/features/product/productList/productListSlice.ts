@@ -20,13 +20,17 @@ const productListSlice = createSlice({
     getProduct(state, action: PayloadAction<Product>) {
       state.loading = false;
     },
-    getProducts(state, action: PayloadAction<Product[]>) {
-      action.payload?.forEach(
+    getProducts(state, action: PayloadAction<ResponseModel<Product[]>>) {
+      action.payload?.Data.forEach(
         (x) => (x.FinishDate = moment(x.FinishDate as any).format("DD.MM.YYYY"))
       );
-      state.data = action.payload;
+      state.data = action.payload.Data ?? undefined;
+      state.loading = false;
+      state.errors = action.payload.Message;
+      state.isSuccess = action.payload.IsSucceeded;
     },
     setLoading(state, action: PayloadAction<boolean>) {
+      state = { ...initialState };
       state.loading = action.payload;
     },
   },
@@ -37,9 +41,9 @@ export const getProducts = (restaurantId: number): AppThunk => async (
 ) => {
   dispatch(productListSlice.actions.setLoading(true));
   const response = await axios.get<ResponseModel<Product[]>>(
-    `http://localhost:4000/api/restaurant/${restaurantId}/products`
+    `restaurant/${restaurantId}/products`
   );
-  dispatch(productListSlice.actions.getProducts(response.data.Data));
+  dispatch(productListSlice.actions.getProducts(response.data));
   dispatch(productListSlice.actions.setLoading(false));
 };
 

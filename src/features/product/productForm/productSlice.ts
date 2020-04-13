@@ -23,14 +23,20 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    getProduct(state, action: PayloadAction<Product>) {
-      action.payload.finishDate = moment(action.payload.FinishDate as any);
-
-      state.data = action.payload;
+    getProduct(state, action: PayloadAction<ResponseModel<Product>>) {
+      action.payload.Data.finishDate = moment(
+        action.payload.Data.FinishDate as any
+      );
+      state.data = action.payload.Data ?? undefined;
       state.loading = false;
+      state.errors = action.payload.Message;
+      state.isSuccess = action.payload.IsSucceeded;
     },
-    addProduct(state, action: PayloadAction<Product>) {
-      state.data = action.payload;
+    addProduct(state, action: PayloadAction<ResponseModel<Product>>) {
+      state.data = action.payload.Data ?? undefined;
+      state.loading = false;
+      state.errors = action.payload.Message;
+      state.isSuccess = action.payload.IsSucceeded;
     },
     updateProduct(state, action: PayloadAction<Product>) {},
     deleteProduct(state, action: PayloadAction<Product>) {},
@@ -38,6 +44,7 @@ const productSlice = createSlice({
       state.data = undefined;
     },
     setLoading(state, action: PayloadAction<boolean>) {
+      state = { ...initialState };
       state.loading = action.payload;
     },
   },
@@ -50,7 +57,7 @@ export const getProduct = (id: number): AppThunk => async (
   let data = await axios.get<ResponseModel<Product>>(
     `http://localhost:4000/api/product/${id}`
   );
-  dispatch(productSlice.actions.getProduct(data.data.Data));
+  dispatch(productSlice.actions.getProduct(data.data));
 };
 
 export const resetState = (): AppThunk => async (dispatch: AppDispatch) => {
@@ -61,8 +68,11 @@ export const addProduct = (product: Product): AppThunk => async (
   dispatch: AppDispatch
 ) => {
   product.RestaurantID = 1;
-  await axios.post("http://localhost:4000/api/product", product);
-  dispatch(productSlice.actions.addProduct(product));
+  const response = await axios.post<ResponseModel<Product>>(
+    "http://localhost:4000/api/product",
+    product
+  );
+  dispatch(productSlice.actions.addProduct(response.data));
   dispatch(getProducts(1));
 };
 

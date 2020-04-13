@@ -2,9 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppThunk, AppDispatch } from "../../redux";
 import { RestaurantState, Restaurant } from "./types";
-import axios from "axios";
 import ResponseModel from "../../shared/ResponseModel";
-import http from "../../shared/http";
+import axios from "axios";
 const initialState: RestaurantState = {
   data: {
     ID: 0,
@@ -31,6 +30,7 @@ const restaurantSlice = createSlice({
       state.isSuccess = action.payload.IsSucceeded;
     },
     setLoading(state, action: PayloadAction<boolean>) {
+      state = { ...initialState };
       state.loading = action.payload;
     },
     saveRestaurant(state, action: PayloadAction<Restaurant>) {},
@@ -42,7 +42,7 @@ export const getRestaurant = (id: number): AppThunk => async (
 ) => {
   dispatch(restaurantSlice.actions.setLoading(true));
   const response = await axios.get<ResponseModel<Restaurant>>(
-    `http://localhost:4000/api/restaurant/${id}`
+    `restaurant/${id}`
   );
 
   dispatch(restaurantSlice.actions.getRestaurant(response.data));
@@ -54,13 +54,14 @@ export const saveRestaurant = (restaurant: Restaurant): AppThunk => async (
   dispatch(restaurantSlice.actions.setLoading(true));
   restaurant.ID = 1;
 
-  const response = await http.put<ResponseModel<Restaurant>>(
+  const response = await axios.put<ResponseModel<Restaurant>>(
     `restaurant/${restaurant.ID}`,
-    restaurant,
-    { headers: { "Access-Control-Allow-Origin": "*" } }
+    restaurant
   );
 
   dispatch(restaurantSlice.actions.saveRestaurant(response.data.Data));
+
+  dispatch(restaurantSlice.actions.setLoading(false));
 };
 
 export default restaurantSlice.reducer;
