@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "./loginSlice";
 import history from "../../shared/History";
 import { notification } from "antd";
+import notify from "../../components/Notification";
 
 interface Props {}
 const layout = {
@@ -25,11 +26,11 @@ const LoginForm = (props: Props) => {
   const dispatch = useDispatch();
   const loginState = useSelector((state: RootState) => state.login);
   useEffect(() => {
-    debugger;
     if (!loginState.isSuccess && loginState.errors !== undefined) {
-      notification["error"]({
-        message: "Hata",
-        description: loginState.errors,
+      notify({
+        type: "error",
+        title: "Hata",
+        message: loginState.errors,
       });
     }
     if (loginState.isSuccess) history.push("/app/restaurant");

@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import Button from "../../components/Buttton";
 import { SaveOutlined } from "@ant-design/icons";
-import Select from "../../components/Select";
 import FormItem from "../../components/FormItem";
 import Form from "../../components/Form";
-import { Form as AntForm, Input } from "antd";
+import { Form as AntForm, Input, Select } from "antd";
 import Option from "../../components/Option";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
@@ -66,12 +65,16 @@ const RestaurantForm = (props: Props) => {
   }, [dispatch]);
 
   useEffect(() => {
-    form.setFieldsValue(restaurants.data ?? {});
+    let data: any = { ...restaurants.data };
+    data.WorkingDays = restaurants.data?.WorkingDays.split(",");
+    data.PaymentMethods = restaurants.data?.PaymentMethods.split(",");
+
+    form.setFieldsValue(data);
   }, [restaurants, form]);
 
   const onFinish = (values: Restaurant) => {
-    values.WorkingDays = "";
-    values.PaymentMethods = "";
+    values.WorkingDays = values.WorkingDays.toString();
+    values.PaymentMethods = values.PaymentMethods.toString();
     dispatch(saveRestaurant(values));
   };
   return (
