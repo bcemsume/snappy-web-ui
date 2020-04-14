@@ -18,7 +18,6 @@ const extraButtons = (setDrawerVisible: any) => (
       text="Yeni"
       icon={<PlusOutlined />}
     />
-    <Button type="danger" text="Toplu Sil" icon={<DeleteOutlined />} />
   </>
 );
 
@@ -39,7 +38,7 @@ const Products = () => {
       <Drawer
         onClose={onDrawerClose}
         visible={drawerVisible}
-        title="Urun Tanim"
+        title="Kapmanya Tanim"
       >
         <ProductForm drawerOpen={drawerVisible} />
       </Drawer>

@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import Restaurant from "../screens/Restaurant";
 import Products from "../screens/Products";
+import Campaigns from "../screens/Campaigns";
 
 // interface RouterModel {
 //   children: ReactNode;
@@ -99,6 +100,6 @@ const ROUTER: RouterModel[] = [
   },
   {
     path: "/app/campaigns",
-    component: <Products />,
+    component: <Campaigns />,
   },
 ];
