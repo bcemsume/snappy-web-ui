@@ -28,8 +28,8 @@ const CampaignList = (props: Props) => {
     },
     {
       title: "Urun",
-      dataIndex: "ProductID",
-      key: "productId",
+      dataIndex: "Description",
+      key: "Description",
     },
     {
       title: "Bitis Tarihi",

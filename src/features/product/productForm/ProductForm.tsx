@@ -7,7 +7,7 @@ import Content from "../../../components/Content";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/rootReducer";
 import { SaveOutlined } from "@ant-design/icons";
-import { resetState, addProduct } from "./productSlice";
+import { resetState, addProduct, updateProduct } from "./productSlice";
 import { Product } from "../types";
 import moment from "moment";
 interface Props {
@@ -26,6 +26,7 @@ const ProductForm = (props: Props) => {
   }, [props.drawerOpen, form, dispatch]);
 
   useEffect(() => {
+    debugger;
     form.setFieldsValue(product ?? {});
   }, [product, form]);
 
@@ -37,13 +38,14 @@ const ProductForm = (props: Props) => {
   };
   const onFinish = (values: Product) => {
     let data: Product = {
-      ID: 0,
+      ID: product?.ID ?? 0,
       Description: values.Description,
       FinishDate: moment(values.FinishDate as any).toISOString(),
       Price: Number(values.Price),
       RestaurantID: 1,
     };
-    dispatch(addProduct(data));
+    if (data.ID > 0) dispatch(updateProduct(data));
+    else dispatch(addProduct(data));
   };
   return (
     <Content>

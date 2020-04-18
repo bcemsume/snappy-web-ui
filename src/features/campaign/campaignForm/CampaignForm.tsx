@@ -8,7 +8,7 @@ import Option from "../../../components/Option";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/rootReducer";
 import { SaveOutlined } from "@ant-design/icons";
-import { resetState, addCampaign } from "./campaignSlice";
+import { resetState, addCampaign, updateCampaign } from "./campaignSlice";
 import { getProducts } from "../../product/productList/productListSlice";
 import { Campaign } from "../types";
 import moment from "moment";
@@ -58,14 +58,15 @@ const CampaignForm = (props: Props) => {
   };
 
   const onFinish = (values: Campaign) => {
-    debugger;
     let data: Campaign = {
-      ID: 0,
+      ID: campaign?.ID ?? 0,
+      Description: "",
       ProductID: Number(values.ProductID),
       Claim: Number(values.Claim),
       FinishDate: moment(values.FinishDate as any).toISOString(),
     };
-    dispatch(addCampaign(data));
+    if (data.ID > 0) dispatch(updateCampaign(data));
+    else dispatch(addCampaign(data));
   };
   return (
     <Content>

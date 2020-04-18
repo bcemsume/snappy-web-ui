@@ -5,6 +5,7 @@ export interface Campaign {
   ID: number;
   Product?: Product;
   ProductID: number;
+  Description: String;
   Claim: number;
   finishDate?: moment.Moment;
   FinishDate: String;
@@ -22,7 +23,7 @@ export interface CampaignState extends BaseState {
 export interface CampaignListState extends BaseState {
   data: Campaign[];
 }
-  
-  export interface ProductState extends BaseState {
+
+export interface ProductState extends BaseState {
   data?: Product;
 }

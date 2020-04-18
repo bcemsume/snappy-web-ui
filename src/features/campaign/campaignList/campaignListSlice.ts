@@ -40,10 +40,9 @@ export const getCampaigns = (productId: number): AppThunk => async (
   dispatch: AppDispatch
 ) => {
   dispatch(campaignListSlice.actions.setLoading(true));
-  const response = await axios.get<ResponseModel<Campaign[]>>(
-    `product/${productId}/campaigns`
-  );
-  dispatch(campaignListSlice.actions.getCampaigns(response.data));
+  const response = await axios.get<ResponseModel<Campaign[]>>(`campaign`);
+  debugger;
+  dispatch(campaignListSlice.actions.getCampaigns(response.data ?? []));
   dispatch(campaignListSlice.actions.setLoading(false));
 };
 

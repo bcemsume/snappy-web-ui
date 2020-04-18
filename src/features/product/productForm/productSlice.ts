@@ -38,7 +38,12 @@ const productSlice = createSlice({
       state.errors = action.payload.Message;
       state.isSuccess = action.payload.IsSucceeded;
     },
-    updateProduct(state, action: PayloadAction<Product>) {},
+    updateProduct(state, action: PayloadAction<ResponseModel<Product>>) {
+      state.data = action.payload.Data ?? undefined;
+      state.loading = false;
+      state.errors = action.payload.Message;
+      state.isSuccess = action.payload.IsSucceeded;
+    },
     deleteProduct(state, action: PayloadAction<Product>) {},
     resetState(state) {
       state.data = undefined;
@@ -67,13 +72,21 @@ export const resetState = (): AppThunk => async (dispatch: AppDispatch) => {
 export const addProduct = (product: Product): AppThunk => async (
   dispatch: AppDispatch
 ) => {
+  dispatch(productSlice.actions.setLoading(true));
   product.RestaurantID = 1;
-  const response = await axios.post<ResponseModel<Product>>(
-    "http://localhost:4000/api/product",
+  const response = await axios.post<ResponseModel<Product>>("product", product);
+  dispatch(productSlice.actions.addProduct(response.data));
+};
+
+export const updateProduct = (product: Product): AppThunk => async (
+  dispatch: AppDispatch
+) => {
+  dispatch(productSlice.actions.setLoading(true));
+  const response = await axios.put<ResponseModel<Product>>(
+    `product/${product.ID}`,
     product
   );
-  dispatch(productSlice.actions.addProduct(response.data));
-  dispatch(getProducts(1));
+  dispatch(productSlice.actions.updateProduct(response.data));
 };
 
 export default productSlice.reducer;
