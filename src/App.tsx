@@ -12,7 +12,11 @@ axios.interceptors.request.use(
     return req;
   },
   (err) => {
-    return err.response;
+    return {
+      message: err.response,
+      data: null,
+      isSuccess: false,
+    };
   }
 );
 
@@ -21,7 +25,11 @@ axios.interceptors.response.use(
     return req;
   },
   (err) => {
-    return err.response;
+    return {
+      message: err.response,
+      data: null,
+      isSuccess: false,
+    };
   }
 );
 
