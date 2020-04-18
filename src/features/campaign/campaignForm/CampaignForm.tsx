@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/rootReducer";
 import { SaveOutlined } from "@ant-design/icons";
 import { resetState, addCampaign } from "./campaignSlice";
-import { getProducts } from "../../product/productList/productListSlice"
+import { getProducts } from "../../product/productList/productListSlice";
 import { Campaign } from "../types";
 import moment from "moment";
 
@@ -31,11 +31,11 @@ const CampaignForm = (props: Props) => {
 
   for (let i = 0; i < products.length; i++) {
     productChildrens.push(
-      <Option value={products[i].Description} key={i}>
+      <Option value={products[i].ID} key={i}>
         {products[i].Description}
       </Option>
     );
-  } 
+  }
 
   const campaign = useSelector((state: RootState) => state.campaign.data);
   useEffect(() => {
@@ -46,6 +46,7 @@ const CampaignForm = (props: Props) => {
   }, [props.drawerOpen, form, dispatch]);
 
   useEffect(() => {
+    debugger;
     form.setFieldsValue(campaign ?? {});
   }, [campaign, form]);
 
@@ -55,8 +56,9 @@ const CampaignForm = (props: Props) => {
   const tailLayout = {
     wrapperCol: { offset: 3, span: 1 },
   };
-  
+
   const onFinish = (values: Campaign) => {
+    debugger;
     let data: Campaign = {
       ID: 0,
       ProductID: Number(values.ProductID),
@@ -90,10 +92,8 @@ const CampaignForm = (props: Props) => {
           <DatePicker format="DD.MM.YYYY" />
         </FormItem>
 
-        <FormItem label="Urun" name="Product">
-          <Select placeholder="Urun">
-            {productChildrens}
-          </Select>
+        <FormItem label="Urun" name="ProductID">
+          <Select placeholder="Urun">{productChildrens}</Select>
         </FormItem>
 
         <FormItem style={tailLayout}>

@@ -23,6 +23,7 @@ const loginSlice = createSlice({
       state.loading = action.payload;
     },
     login(state, action: PayloadAction<ResponseModel<Token>>) {
+      debugger;
       state.isSuccess = action.payload.IsSucceeded;
       state.errors = action.payload.Message;
       state.loading = false;
@@ -40,6 +41,7 @@ export const login = (data: UserLogin): AppThunk => async (
     "http://localhost:4000/token/restaurant",
     data
   );
+  debugger;
   dispatch(loginSlice.actions.login(response.data));
 };
 

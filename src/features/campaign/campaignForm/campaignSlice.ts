@@ -23,6 +23,7 @@ const campaignSlice = createSlice({
   initialState,
   reducers: {
     getCampaign(state, action: PayloadAction<ResponseModel<Campaign>>) {
+      debugger;
       action.payload.Data.finishDate = moment(
         action.payload.Data.FinishDate as any
       );
