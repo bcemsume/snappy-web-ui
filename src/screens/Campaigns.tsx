@@ -5,43 +5,42 @@ import Content from "../components/Content";
 import Button from "../components/Buttton";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import Drawer from "../components/Drawer";
+import CampaignList from "../features/campaign/campaignList/CampaignList";
+import CampaignForm from "../features/campaign/campaignForm/CampaignForm";
 
-interface Props {}
+const extraButtons = (setDrawerVisible: any) => (
+  <>
+    <Button
+      onClick={() => {
+        setDrawerVisible(true);
+      }}
+      type="primary"
+      text="Yeni"
+      icon={<PlusOutlined />}
+    />
+  </>
+);
 
-const Campaigns = (props: Props) => {
+const Campaigns = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
-
   const onDrawerClose = () => {
     setDrawerVisible(false);
   };
   const onEditClick = () => {
     setDrawerVisible(true);
   };
-
-  const extraButtons = (setDrawerVisible: any) => (
-    <>
-      <Button
-        onClick={() => {
-          setDrawerVisible(true);
-        }}
-        type="primary"
-        text="Yeni"
-        icon={<PlusOutlined />}
-      />
-    </>
-  );
   return (
     <PageHeader title="Kampanyalar" extra={extraButtons(setDrawerVisible)}>
       <Divider />
       <Content>
-        <div></div>
+        <CampaignList onEditClick={() => onEditClick()} />
       </Content>
       <Drawer
         onClose={onDrawerClose}
         visible={drawerVisible}
-        title="Urun Tanim"
+        title="Kampanya Tanim"
       >
-        <div></div>
+        <CampaignForm drawerOpen={drawerVisible} />
       </Drawer>
     </PageHeader>
   );
