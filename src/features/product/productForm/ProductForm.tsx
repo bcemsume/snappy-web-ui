@@ -10,6 +10,7 @@ import { SaveOutlined } from "@ant-design/icons";
 import { resetState, addProduct, updateProduct } from "./productSlice";
 import { Product } from "../types";
 import moment from "moment";
+import { getProducts } from "../productList/productListSlice";
 interface Props {
   drawerOpen: boolean;
 }
@@ -18,17 +19,19 @@ const ProductForm = (props: Props) => {
 
   const dispatch = useDispatch();
   const product = useSelector((state: RootState) => state.product.data);
+  const loginUser = useSelector((state: RootState) => state.user.data);
+
   useEffect(() => {
     if (!props.drawerOpen) {
       form.resetFields();
       dispatch(resetState());
+      dispatch(getProducts(loginUser?.RestaurantID ?? 0));
     }
-  }, [props.drawerOpen, form, dispatch]);
+  }, [props.drawerOpen, form, dispatch, loginUser]);
 
   useEffect(() => {
-    debugger;
     form.setFieldsValue(product ?? {});
-  }, [product, form]);
+  }, [product, form, loginUser]);
 
   const formStyle = {
     labelCol: { span: 3 },
@@ -42,10 +45,12 @@ const ProductForm = (props: Props) => {
       Description: values.Description,
       FinishDate: moment(values.FinishDate as any).toISOString(),
       Price: Number(values.Price),
-      RestaurantID: 1,
+      RestaurantID: loginUser?.RestaurantID ?? 0,
     };
     if (data.ID > 0) dispatch(updateProduct(data));
     else dispatch(addProduct(data));
+
+    dispatch(getProducts(loginUser?.RestaurantID ?? 0));
   };
   return (
     <Content>

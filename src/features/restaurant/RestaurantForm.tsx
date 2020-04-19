@@ -60,8 +60,10 @@ const RestaurantForm = (props: Props) => {
 
   const dispatch = useDispatch();
   const restaurants = useSelector((state: RootState) => state.restaurant);
+  const loginUser = useSelector((state: RootState) => state.user.data);
+
   useEffect(() => {
-    dispatch(getRestaurant(1));
+    dispatch(getRestaurant(loginUser?.RestaurantID ?? 0));
   }, [dispatch]);
 
   useEffect(() => {
@@ -75,6 +77,7 @@ const RestaurantForm = (props: Props) => {
   const onFinish = (values: Restaurant) => {
     values.WorkingDays = values.WorkingDays.toString();
     values.PaymentMethods = values.PaymentMethods.toString();
+    values.ID = restaurants.data?.ID ?? 0;
     dispatch(saveRestaurant(values));
   };
   return (

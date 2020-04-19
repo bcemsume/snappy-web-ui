@@ -4,9 +4,11 @@ import { AppThunk, AppDispatch } from "../../redux";
 import { LoginState, UserLogin, Token } from "./types";
 import ResponseModel from "../../shared/ResponseModel";
 import axios from "axios";
+import { getUser } from "../user/userSlice";
 
 const initialState: LoginState = {
   data: {
+    ID: 0,
     AccessKey: "",
   },
   errors: undefined,
@@ -23,12 +25,12 @@ const loginSlice = createSlice({
       state.loading = action.payload;
     },
     login(state, action: PayloadAction<ResponseModel<Token>>) {
-      debugger;
       state.isSuccess = action.payload.IsSucceeded;
       state.errors = action.payload.Message;
       state.loading = false;
       state.data = Object.assign({}, { ...action.payload.Data });
       localStorage.setItem("token", `${state.data?.AccessKey}`);
+      localStorage.setItem("id", `${state.data?.ID}`);
     },
   },
 });
@@ -41,8 +43,7 @@ export const login = (data: UserLogin): AppThunk => async (
     "http://localhost:4000/token/restaurant",
     data
   );
-  debugger;
+  dispatch(getUser());
   dispatch(loginSlice.actions.login(response.data));
 };
-
 export default loginSlice.reducer;

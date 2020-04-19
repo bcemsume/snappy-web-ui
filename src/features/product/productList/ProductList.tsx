@@ -4,10 +4,12 @@ import Button from "../../../components/Buttton";
 import Divider from "../../../components/Divider";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/rootReducer";
-import { getProducts } from "./productListSlice";
+import { getProducts, deleteProduct } from "./productListSlice";
 import { getProduct } from "../productForm/productSlice";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Product } from "../types";
+import { Popconfirm } from "antd";
+import notify from "../../../components/Notification";
 
 interface Props {
   onEditClick: () => void;
@@ -16,10 +18,21 @@ interface Props {
 const ProductList = (props: Props) => {
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.productList);
+  const loginUser = useSelector((state: RootState) => state.user.data);
 
   useEffect(() => {
-    dispatch(getProducts(1));
-  }, [dispatch]);
+    if (!products.isSuccess && products.errors !== undefined) {
+      notify({
+        type: "error",
+        title: "Hata",
+        message: products.errors,
+      });
+    }
+  }, [products]);
+
+  useEffect(() => {
+    dispatch(getProducts(loginUser?.RestaurantID ?? 0));
+  }, [dispatch, loginUser]);
   const columns = [
     {
       title: "Urun Adi",
@@ -52,6 +65,22 @@ const ProductList = (props: Props) => {
             }}
           />
           <Divider type="vertical" />
+          <Popconfirm
+            placement="left"
+            title={"Silmek Istediginize Emin misiniz?"}
+            onConfirm={() => {
+              dispatch(deleteProduct(record.ID));
+            }}
+            okText="Evet"
+            cancelText="Hayir"
+          >
+            <Button
+              text=""
+              type="danger"
+              shape="round"
+              icon={<DeleteOutlined />}
+            />
+          </Popconfirm>
         </span>
       ),
     },

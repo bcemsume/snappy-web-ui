@@ -12,6 +12,7 @@ import { resetState, addCampaign, updateCampaign } from "./campaignSlice";
 import { getProducts } from "../../product/productList/productListSlice";
 import { Campaign } from "../types";
 import moment from "moment";
+import { getCampaigns } from "../campaignList/campaignListSlice";
 
 interface Props {
   drawerOpen: boolean;
@@ -24,9 +25,10 @@ const CampaignForm = (props: Props) => {
 
   var productChildrens: any[] = [];
   const products = useSelector((state: RootState) => state.productList.data);
+  const loginUser = useSelector((state: RootState) => state.user.data);
 
   useEffect(() => {
-    dispatch(getProducts(1));
+    dispatch(getProducts(loginUser?.RestaurantID ?? 0));
   }, [dispatch]);
 
   for (let i = 0; i < products.length; i++) {
@@ -42,11 +44,11 @@ const CampaignForm = (props: Props) => {
     if (!props.drawerOpen) {
       form.resetFields();
       dispatch(resetState());
+      dispatch(getCampaigns(loginUser?.RestaurantID ?? 0));
     }
-  }, [props.drawerOpen, form, dispatch]);
+  }, [props.drawerOpen, form, dispatch, loginUser]);
 
   useEffect(() => {
-    debugger;
     form.setFieldsValue(campaign ?? {});
   }, [campaign, form]);
 

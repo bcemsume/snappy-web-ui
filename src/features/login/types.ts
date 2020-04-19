@@ -6,6 +6,7 @@ export interface LoginState extends BaseState {
 
 export interface Token {
   AccessKey: String;
+  ID: number;
 }
 
 export interface UserLogin {

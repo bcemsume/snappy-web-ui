@@ -52,8 +52,6 @@ export const saveRestaurant = (restaurant: Restaurant): AppThunk => async (
   dispatch: AppDispatch
 ) => {
   dispatch(restaurantSlice.actions.setLoading(true));
-  restaurant.ID = 1;
-
   const response = await axios.put<ResponseModel<Restaurant>>(
     `restaurant/${restaurant.ID}`,
     restaurant

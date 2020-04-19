@@ -12,6 +12,7 @@ import {
 import Restaurant from "../screens/Restaurant";
 import Products from "../screens/Products";
 import Campaigns from "../screens/Campaigns";
+import ProtectedRoute from "./ProtectedRoute";
 
 // interface RouterModel {
 //   children: ReactNode;
@@ -25,9 +26,9 @@ export const AppRouter: React.FC = () => {
             renders the first one that matches the current URL. */}
         <Switch>
           {ROUTER.map((val, idx) => (
-            <Route key={idx} path={`${val.path}`}>
+            <ProtectedRoute key={idx} path={`${val.path}`}>
               {val.component}
-            </Route>
+            </ProtectedRoute>
           ))}
         </Switch>
       </div>

@@ -14,12 +14,9 @@ const initialState: CampaignListState = {
 };
 
 const campaignListSlice = createSlice({
-  name: "campaign",
+  name: "campaignList",
   initialState,
   reducers: {
-    getCampaign(state, action: PayloadAction<Campaign>) {
-      state.loading = false;
-    },
     getCampaigns(state, action: PayloadAction<ResponseModel<Campaign[]>>) {
       action.payload?.Data.forEach(
         (x) => (x.FinishDate = moment(x.FinishDate as any).format("DD.MM.YYYY"))
@@ -30,20 +27,33 @@ const campaignListSlice = createSlice({
       state.isSuccess = action.payload.IsSucceeded;
     },
     setLoading(state, action: PayloadAction<boolean>) {
-      state = { ...initialState };
       state.loading = action.payload;
+    },
+    deleteCampaign(state, action: PayloadAction<ResponseModel<Campaign>>) {
+      state.loading = false;
+      state.isSuccess = action.payload.IsSucceeded;
+      state.errors = action.payload.Message;
     },
   },
 });
 
-export const getCampaigns = (productId: number): AppThunk => async (
+export const getCampaigns = (restaurantId: number): AppThunk => async (
   dispatch: AppDispatch
 ) => {
   dispatch(campaignListSlice.actions.setLoading(true));
-  const response = await axios.get<ResponseModel<Campaign[]>>(`campaign`);
-  debugger;
+  const response = await axios.get<ResponseModel<Campaign[]>>(
+    `restaurant/${restaurantId}/campaigns`
+  );
   dispatch(campaignListSlice.actions.getCampaigns(response.data ?? []));
-  dispatch(campaignListSlice.actions.setLoading(false));
 };
 
+export const deleteCampaign = (id: number): AppThunk => async (
+  dispatch: AppDispatch
+) => {
+  dispatch(campaignListSlice.actions.setLoading(true));
+  const response = await axios.delete<ResponseModel<Campaign>>(
+    `campaign/${id}`
+  );
+  dispatch(campaignListSlice.actions.deleteCampaign(response.data ?? {}));
+};
 export default campaignListSlice.reducer;

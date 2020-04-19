@@ -12,6 +12,7 @@ import { login } from "./loginSlice";
 import history from "../../shared/History";
 import { notification } from "antd";
 import notify from "../../components/Notification";
+import { getUser } from "../user/userSlice";
 
 interface Props {}
 const layout = {
@@ -25,6 +26,8 @@ const LoginForm = (props: Props) => {
   const [form] = AntForm.useForm();
   const dispatch = useDispatch();
   const loginState = useSelector((state: RootState) => state.login);
+  const userState = useSelector((state: RootState) => state.user);
+
   useEffect(() => {
     if (!loginState.isSuccess && loginState.errors !== undefined) {
       notify({
@@ -33,8 +36,14 @@ const LoginForm = (props: Props) => {
         message: loginState.errors,
       });
     }
-    if (loginState.isSuccess) history.push("/app/restaurant");
-  }, [loginState]);
+    if (loginState.isSuccess) {
+      history.push("/app");
+    }
+    if ((userState.data?.RestaurantID ?? 0) > 0) {
+      history.push("/app");
+    }
+    dispatch(getUser());
+  }, [loginState, userState, dispatch]);
   const onFinish = (values: UserLogin) => {
     dispatch(login(values));
   };

@@ -33,6 +33,7 @@ const productSlice = createSlice({
       state.isSuccess = action.payload.IsSucceeded;
     },
     addProduct(state, action: PayloadAction<ResponseModel<Product>>) {
+      debugger;
       state.data = action.payload.Data ?? undefined;
       state.loading = false;
       state.errors = action.payload.Message;
@@ -47,9 +48,11 @@ const productSlice = createSlice({
     deleteProduct(state, action: PayloadAction<Product>) {},
     resetState(state) {
       state.data = undefined;
+      state.loading = false;
+      state.errors = "";
+      state.isSuccess = true;
     },
     setLoading(state, action: PayloadAction<boolean>) {
-      state = { ...initialState };
       state.loading = action.payload;
     },
   },
@@ -59,10 +62,9 @@ export const getProduct = (id: number): AppThunk => async (
   dispatch: AppDispatch
 ) => {
   dispatch(productSlice.actions.setLoading(true));
-  let data = await axios.get<ResponseModel<Product>>(
-    `http://localhost:4000/api/product/${id}`
-  );
+  let data = await axios.get<ResponseModel<Product>>(`product/${id}`);
   dispatch(productSlice.actions.getProduct(data.data));
+  dispatch(productSlice.actions.setLoading(false));
 };
 
 export const resetState = (): AppThunk => async (dispatch: AppDispatch) => {
@@ -73,9 +75,9 @@ export const addProduct = (product: Product): AppThunk => async (
   dispatch: AppDispatch
 ) => {
   dispatch(productSlice.actions.setLoading(true));
-  product.RestaurantID = 1;
   const response = await axios.post<ResponseModel<Product>>("product", product);
   dispatch(productSlice.actions.addProduct(response.data));
+  dispatch(productSlice.actions.setLoading(false));
 };
 
 export const updateProduct = (product: Product): AppThunk => async (
@@ -87,6 +89,7 @@ export const updateProduct = (product: Product): AppThunk => async (
     product
   );
   dispatch(productSlice.actions.updateProduct(response.data));
+  dispatch(productSlice.actions.setLoading(false));
 };
 
 export default productSlice.reducer;

@@ -75,7 +75,7 @@ export const addCampaign = (campaign: Campaign): AppThunk => async (
     campaign
   );
   dispatch(campaignSlice.actions.addCampaign(response.data));
-  dispatch(getCampaigns(1));
+  // dispatch(getCampaigns(1));
 };
 
 export const updateCampaign = (campaign: Campaign): AppThunk => async (
@@ -86,7 +86,7 @@ export const updateCampaign = (campaign: Campaign): AppThunk => async (
     campaign
   );
   dispatch(campaignSlice.actions.updateCampaign(response.data));
-  dispatch(getCampaigns(1));
+  // dispatch(getCampaigns(1));
 };
 
 export default campaignSlice.reducer;

@@ -4,10 +4,11 @@ import Button from "../../../components/Buttton";
 import Divider from "../../../components/Divider";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/rootReducer";
-import { getCampaigns } from "./campaignListSlice";
+import { getCampaigns, deleteCampaign } from "./campaignListSlice";
 import { getCampaign } from "../campaignForm/campaignSlice";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Campaign } from "../types";
+import { Popconfirm } from "antd";
 
 interface Props {
   onEditClick: () => void;
@@ -16,9 +17,10 @@ interface Props {
 const CampaignList = (props: Props) => {
   const dispatch = useDispatch();
   const campaigns = useSelector((state: RootState) => state.campaignList);
+  const loginUser = useSelector((state: RootState) => state.user.data);
 
   useEffect(() => {
-    dispatch(getCampaigns(1));
+    dispatch(getCampaigns(loginUser?.RestaurantID ?? 0));
   }, [dispatch]);
   const columns = [
     {
@@ -52,6 +54,23 @@ const CampaignList = (props: Props) => {
             }}
           />
           <Divider type="vertical" />
+          <Popconfirm
+            placement="left"
+            title={"Silmek Istediginize Emin misiniz?"}
+            onConfirm={() => {
+              dispatch(deleteCampaign(record.ID));
+              dispatch(getCampaigns(loginUser?.RestaurantID ?? 0));
+            }}
+            okText="Evet"
+            cancelText="Hayir"
+          >
+            <Button
+              text=""
+              type="danger"
+              shape="round"
+              icon={<DeleteOutlined />}
+            />
+          </Popconfirm>
         </span>
       ),
     },
