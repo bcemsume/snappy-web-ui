@@ -30,7 +30,6 @@ const restaurantSlice = createSlice({
       state.isSuccess = action.payload.IsSucceeded;
     },
     setLoading(state, action: PayloadAction<boolean>) {
-      state = { ...initialState };
       state.loading = action.payload;
     },
     saveRestaurant(state, action: PayloadAction<Restaurant>) {},

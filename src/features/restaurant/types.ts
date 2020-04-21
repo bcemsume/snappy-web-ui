@@ -13,3 +13,19 @@ export interface Restaurant {
   PaymentMethods: String;
   WorkingDays: String;
 }
+
+export interface Image {
+  ID: number;
+  ImageURL: String;
+  Order: number;
+  Type: number;
+}
+
+export interface ImageModel {
+  Images: Image[];
+  RestaurantID: number;
+}
+
+export interface ImageState extends BaseState {
+  data: ImageModel;
+}

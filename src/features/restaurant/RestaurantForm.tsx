@@ -64,7 +64,7 @@ const RestaurantForm = (props: Props) => {
 
   useEffect(() => {
     dispatch(getRestaurant(loginUser?.RestaurantID ?? 0));
-  }, [dispatch]);
+  }, [dispatch, loginUser]);
 
   useEffect(() => {
     let data: any = { ...restaurants.data };
