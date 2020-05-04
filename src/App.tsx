@@ -1,10 +1,9 @@
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import React from "react";
 import "./App.css";
 import { LoginRouter } from "./router/LoginRouter";
 
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-
-axios.defaults.baseURL = "http://localhost:4000/api/";
+axios.defaults.baseURL = "https://snappy-app-api.herokuapp.com/api/";
 
 axios.interceptors.request.use(
   (req: AxiosRequestConfig) => {
