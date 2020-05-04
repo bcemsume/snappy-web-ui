@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import { AppThunk, AppDispatch } from "../../redux";
-import { LoginState, UserLogin, Token } from "./types";
-import ResponseModel from "../../shared/ResponseModel";
 import axios from "axios";
+import { AppDispatch, AppThunk } from "../../redux";
+import ResponseModel from "../../shared/ResponseModel";
 import { getUser } from "../user/userSlice";
+import { LoginState, Token, UserLogin } from "./types";
 
 const initialState: LoginState = {
   data: {
@@ -40,7 +39,7 @@ export const login = (data: UserLogin): AppThunk => async (
 ) => {
   dispatch(loginSlice.actions.setLoading(true));
   const response = await axios.post<ResponseModel<Token>>(
-    "http://localhost:4000/token/restaurant",
+    "https://snappy-app-api.herokuapp.com/token/restaurant",
     data
   );
   dispatch(getUser());
