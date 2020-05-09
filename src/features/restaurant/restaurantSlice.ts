@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import { AppThunk, AppDispatch } from "../../redux";
-import { RestaurantState, Restaurant } from "./types";
-import ResponseModel from "../../shared/ResponseModel";
 import axios from "axios";
+import { AppDispatch, AppThunk } from "../../redux";
+import ResponseModel from "../../shared/ResponseModel";
+import { Restaurant, RestaurantState } from "./types";
+
 const initialState: RestaurantState = {
   data: {
     ID: 0,
@@ -13,6 +13,9 @@ const initialState: RestaurantState = {
     PaymentMethods: "",
     Phone: "",
     WorkingDays: "",
+    Logo: "",
+    Lang: "0",
+    Long: "0",
   },
   errors: undefined,
   loading: false,

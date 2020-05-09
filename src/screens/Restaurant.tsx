@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from "react";
-import PageHeader from "../components/PageHeader";
-
+import React from "react";
 import Content from "../components/Content";
 import Divider from "../components/Divider";
-import RestaurantForm from "../features/restaurant/RestaurantForm";
-import firebase from "firebase";
-import Button from "../components/Buttton";
-import { Upload, Carousel } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import useFirebaseUpload from "../hooks/useFirebaseFileUploader";
-import Spin from "../components/Spin";
+import PageHeader from "../components/PageHeader";
 import RestaurantImages from "../features/restaurant/imageForm/RestaurantImages";
+import RestaurantForm from "../features/restaurant/RestaurantForm";
+
 const Restaurant = () => {
   return (
     <>

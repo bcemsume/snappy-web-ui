@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import { AppThunk, AppDispatch } from "../../redux";
-import ResponseModel from "../../shared/ResponseModel";
 import axios from "axios";
-import { UserDetailState, UserDetail } from "./types";
+import { AppDispatch, AppThunk } from "../../redux";
+import ResponseModel from "../../shared/ResponseModel";
+import { UserDetail, UserDetailState } from "./types";
 
 const initialState: UserDetailState = {
   data: {
@@ -39,6 +38,7 @@ export const getUser = (): AppThunk => async (dispatch: AppDispatch) => {
   const response = await axios.get<ResponseModel<UserDetail>>(
     "restaurant-user"
   );
+  debugger;
   if (response.status != 401) {
     dispatch(userSlice.actions.getUser(response.data));
   }

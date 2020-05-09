@@ -12,6 +12,9 @@ export interface Restaurant {
   Phone: String;
   PaymentMethods: String;
   WorkingDays: String;
+  Logo: String;
+  Lang: String | undefined;
+  Long: String | undefined;
 }
 
 export interface Image {

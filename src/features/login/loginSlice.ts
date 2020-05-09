@@ -39,7 +39,7 @@ export const login = (data: UserLogin): AppThunk => async (
 ) => {
   dispatch(loginSlice.actions.setLoading(true));
   const response = await axios.post<ResponseModel<Token>>(
-    "https://snappy-app-api.herokuapp.com/token/restaurant",
+    "http://localhost:4000/token/restaurant",
     data
   );
   dispatch(getUser());

@@ -1,15 +1,17 @@
-import React, { useEffect } from "react";
-import Button from "../../components/Buttton";
 import { SaveOutlined } from "@ant-design/icons";
-import FormItem from "../../components/FormItem";
-import Form from "../../components/Form";
-import { Form as AntForm, Input, Select } from "antd";
-import Option from "../../components/Option";
+import { Avatar, Form as AntForm, Input, Select } from "antd";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "../../components/Buttton";
+import Form from "../../components/Form";
+import FormItem from "../../components/FormItem";
+import Map, { IMarker } from "../../components/Map";
+import Option from "../../components/Option";
+import Spin from "../../components/Spin";
+import useFirebaseUpload from "../../hooks/useFirebaseFileUploader";
 import { RootState } from "../../redux/rootReducer";
 import { getRestaurant, saveRestaurant } from "./restaurantSlice";
 import { Restaurant } from "./types";
-import Spin from "../../components/Spin";
 
 const layout = {
   labelCol: { span: 3 },
@@ -62,6 +64,8 @@ const RestaurantForm = (props: Props) => {
   const restaurants = useSelector((state: RootState) => state.restaurant);
   const loginUser = useSelector((state: RootState) => state.user.data);
 
+  const [{ data, isLoading }, setFileData] = useFirebaseUpload();
+  const [marker, setMarker] = useState({} as IMarker);
   useEffect(() => {
     dispatch(getRestaurant(loginUser?.RestaurantID ?? 0));
   }, [dispatch, loginUser]);
@@ -77,12 +81,34 @@ const RestaurantForm = (props: Props) => {
   const onFinish = (values: Restaurant) => {
     values.WorkingDays = values.WorkingDays.toString();
     values.PaymentMethods = values.PaymentMethods.toString();
+    values.Logo = data?.downloadUrl;
+    values.Lang = marker.lat?.toString();
+    values.Long = marker.lng?.toString();
     values.ID = restaurants.data?.ID ?? 0;
+
     dispatch(saveRestaurant(values));
   };
+
   return (
     <Spin spinning={restaurants.loading}>
       <Form form={form} style={layout} onFinish={onFinish}>
+        <FormItem label="Logo">
+          <Spin spinning={isLoading}>
+            <Avatar
+              size={64}
+              src={`${
+                !data?.downloadUrl ? restaurants.data?.Logo : data?.downloadUrl
+              }`}
+            />
+
+            <input
+              type="file"
+              onChange={(e: any) => {
+                setFileData(e.target.files[0]);
+              }}
+            />
+          </Spin>
+        </FormItem>
         <FormItem
           label="Sirket Adi"
           name="Title"
@@ -127,6 +153,20 @@ const RestaurantForm = (props: Props) => {
           </Select>
         </FormItem>
 
+        <FormItem label="Konum Bilgisi" name="WorkingDays">
+          <div style={{ height: "400px", width: "100%" }}>
+            <Map
+              onChange={(lat: number, lng: number) => {
+                setMarker({ lat, lng });
+              }}
+              marker={{
+                lng: Number(restaurants.data?.Long),
+                lat: Number(restaurants.data?.Lang),
+              }}
+              label="test"
+            />
+          </div>
+        </FormItem>
         <FormItem style={tailLayout}>
           <Button
             attrs={{ htmlType: "submit", type: "primary" }}
